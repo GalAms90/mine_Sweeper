@@ -48,8 +48,13 @@ function onCellClicked(elCell, i, j) {
 
   if (gBoard[i][j].isMarked) return
 
+  if (isGamerWin()) {
+    console.log('You Win')
+    gameOver()
+  }
+
   elCell.classList.remove('hidden')
-  console.log(elCell)
+  // console.log(elCell)
 
   if (elCell.innerText) {
     if (elCell.innerText === MINE) {
@@ -57,7 +62,6 @@ function onCellClicked(elCell, i, j) {
     } else return
   } else {
     expandShown(gBoard, elCell, i, j)
-    
   }
 }
 
@@ -74,7 +78,7 @@ function expandShown(board, cellClass, rowIdx, colIdx) {
 
       board[i][j].isShown = true
       gGame.shownCount++
-      
+
       var cellClass = getClassName(i, j)
 
       var elCell = document.querySelector(`.${cellClass}`)
@@ -88,6 +92,11 @@ function expandShown(board, cellClass, rowIdx, colIdx) {
 function gameOver() {
   console.log('Game Over')
   gIsGameOn = false
+  
+}
+
+function isGamerWin() {
+  return gLevel.MINES === gGame.markedCount && gGame.shownCount === (gLevel.SIZE ** 2) 
 }
 
 function startStopWatch() {
@@ -102,8 +111,7 @@ function startStopWatch() {
 }
 
 function getClassName(i, j) {
-	const cellClass = `cell-${i}-${j}`
-	return cellClass
+  return `cell-${i}-${j}`
 }
 
 function getPos(str) {

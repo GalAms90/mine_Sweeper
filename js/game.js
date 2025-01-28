@@ -3,11 +3,11 @@
 const MINE = '*'
 const MARK = '⛳'
 
-var SIZE = 4
+
 var gBoard
 var gLevel
 var gGame
-var gMIneCount
+var gMIneNegCount
 var gIsGameOn
 
 function onInit() {
@@ -25,13 +25,13 @@ function onInit() {
   gBoard = buildBoard()
   console.table(gBoard)
   populateBoard(gBoard)
-  gMIneCount = setMinesNegsCount(gBoard)
+  gMIneNegCount = setMinesNegsCount(gBoard)
   renderBoard()
   // console.log(gMIneCount)
 }
 
 function buildBoard() {
-  const board = createMat(SIZE)
+  const board = createMat(gLevel.SIZE)
   return board
 }
 
@@ -46,6 +46,7 @@ function populateBoard(board) {
       }
     }
   }
+
   // placeMines(board)
   board[0][0].isMine = true
   board[3][3].isMine = true
@@ -81,36 +82,37 @@ function renderBoard() {
 }
 
 function getRandomPos() {
-  var randPos_i = getRandomInt(0, SIZE - 1)
-  var randPos_j = getRandomInt(0, SIZE - 1)
-  var drawnPos = gBoard[randPos_i][randPos_j]
-  return drawnPos
+  var emptyCells = countEmptyCells(gBoard)
+  var randPos = getRandomInt(0, emptyCells.length - 1)
+  var randomLocation = emptyCells[randPos]
+  emptyCells.splice(1, randPos)
+
+  return randomLocation
 
 }
 
 function placeMines(board) {
-  for (var i = 0; i < gLevel.MINES; i++) {
-    var currPos_i = getRandomInt(0, SIZE - 1)
-    var currPos_j = getRandomInt(0, SIZE - 1)
-    if (board[currPos_i][currPos_j].isMine) {
-      currPos_i = getRandomInt(0, SIZE - 1)
-      currPos_j = getRandomInt(0, SIZE - 1)
-    }
-    board[currPos_i][currPos_j].isMine = true
+
+  for(var i = 0; i < gLevel.MINES; i++) {
+
+    var randomLocation =  getRandomPos()
+    board[randomLocation.i][randomLocation.j].isMine = true
+
   }
+  
 }
 
-// function countEmptyCells(gBoard) {
-// 	var res = []
-// 	for (var i = 0; i < gBoard.length; i++) {
-// 		for (var j = 0; j < gBoard[0].length; j++) {
-// 			if (gBoard[i][j].type === FLOOR && gBoard[i][j].gameElement === null)
-// 				res.push({ i, j })
-// 		}
-// 	}
-// 	if (!res) return null
-// 	return res
-// }
+function countEmptyCells(board) {
+  var res = []
+  for (var i = 0; i < board.length; i++) {
+    for (var j = 0; j < board[0].length; j++) {
+      if (!board[i][j].isMine && !board[i][j].minesAroundCount)
+        res.push({ i, j })
+    }
+  }
+  if (!res) return null
+  return res
+}
 
 function onCellMarked(elCell) {
   if (!gIsGameOn) return
@@ -120,13 +122,18 @@ function onCellMarked(elCell) {
   var currPos = gBoard[position[0]][position[1]]
 
   if (!currPos.isMarked) { // if cell is not marked, mark it
-
+ 
+    gGame.markedCount++
     currPos.isMarked = true
     elCell.innerText = MARK
     elCell.classList.remove('hidden')
+    if (isGamerWin()) {
+      console.log('You Win')
+      gameOver()
+    }
 
   } else { // else make the cell Hidden
-
+    gGame.markedCount--
     elCell.classList.add('hidden')
     currPos.isMarked = false
 
