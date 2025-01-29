@@ -12,6 +12,10 @@ function createMat(SIZE) {
   return mat
 }
 
+function isFirstMove() {
+  return !gGame.shownCount && !gGame.markedCount && !gGame.secsPassed
+}
+
 function countNegs(rowIdx, colIdx, board) {
   var count = 0
   for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
@@ -42,63 +46,6 @@ function setMinesNegsCount(board) {
   return res
 }
 
-function onCellClicked(elCell, i, j) {
-
-  if (!gIsGameOn) return
-
-  if (gBoard[i][j].isMarked) return
-
-  if (isGamerWin()) {
-    console.log('You Win')
-    gameOver()
-  }
-
-  elCell.classList.remove('hidden')
-  // console.log(elCell)
-
-  if (elCell.innerText) {
-    if (elCell.innerText === MINE) {
-      gameOver()
-    } else return
-  } else {
-    expandShown(gBoard, elCell, i, j)
-  }
-}
-
-function expandShown(board, cellClass, rowIdx, colIdx) {
-  for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
-    if (i < 0 || i >= board.length) continue
-
-    for (var j = colIdx - 1; j <= colIdx + 1; j++) {
-      if (i === rowIdx && j === colIdx) continue
-
-      if (j < 0 || j >= board[0].length) continue
-
-      if (board[i][j].isMine) continue
-
-      board[i][j].isShown = true
-      gGame.shownCount++
-
-      var cellClass = getClassName(i, j)
-
-      var elCell = document.querySelector(`.${cellClass}`)
-
-      elCell.classList.remove('hidden')
-
-    }
-  }
-}
-
-function gameOver() {
-  console.log('Game Over')
-  gIsGameOn = false
-  
-}
-
-function isGamerWin() {
-  return gLevel.MINES === gGame.markedCount && gGame.shownCount === (gLevel.SIZE ** 2) 
-}
-
 function startStopWatch() {
 
   var StartTime = Date.now();
@@ -108,6 +55,28 @@ function startStopWatch() {
     document.querySelector(".timer").innerHTML = (elapsedTime / 1000).toFixed(3);
   }, 1);
 
+}
+
+function getRandomPos() {
+  var emptyCells = countEmptyCells(gBoard)
+  var randPos = getRandomInt(0, emptyCells.length - 1)
+  var randomLocation = emptyCells[randPos]
+  emptyCells.splice(1, randPos)
+
+  return randomLocation
+
+}
+
+function countEmptyCells(board) {
+  var res = []
+  for (var i = 0; i < board.length; i++) {
+    for (var j = 0; j < board[0].length; j++) {
+      if (!board[i][j].isMine && !board[i][j].minesAroundCount)  ///
+        res.push({ i, j })
+    }
+  }
+  if (!res) return null
+  return res
 }
 
 function getClassName(i, j) {

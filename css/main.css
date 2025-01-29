@@ -21,11 +21,13 @@ table {
   padding: 10px;
   font-weight: 600;
   cursor: pointer;
-  background-color: rgb(155, 153, 148);
+  background-color: rgb(158, 158, 158);
+  
 }
 
 .hidden {
-  text-indent: -10000px
+  text-indent: -10000px;
+  box-shadow: inset 2px 2px 0px rgb(92, 90, 90), inset -2px -2px 0px rgb(255, 255, 255);
 }
 
 footer {
