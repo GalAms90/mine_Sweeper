@@ -11,6 +11,8 @@ var gGame
 var gBoard
 var gIsFirstClick
 
+var gLives
+
 var gLevel = {
   SIZE: 4,
   MINES: 2
@@ -24,6 +26,8 @@ function onInit() {
 
   document.querySelector('.icon').innerText = SMILE
   document.querySelector('.timer').innerText = '00:000'
+
+  gLives = 3
 
   gIsFirstClick = false
 
@@ -72,7 +76,7 @@ function renderBoard() {
       if (currCell.isMarked) {
         content = MARK;
       } else if (currCell.isShown) {
-        content = currCell.isMine ? MINE : (currCell.minesAroundCount || '')
+        content = currCell.isMine ? MINE : currCell.minesAroundCount || ''
       }
 
       var cellClass = currCell.isShown ? '' : 'hidden'
