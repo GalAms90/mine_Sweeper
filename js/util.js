@@ -93,6 +93,8 @@ function renderHints() {
 }
 
 function onHintClick(elHint) {
+
+  if (gIsHintOn) return
   
   elHint.src = "img/hint_on.jpg";
 
