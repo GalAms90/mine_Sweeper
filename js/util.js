@@ -93,7 +93,7 @@ function renderHints() {
 }
 
 function onHintClick(elHint) {
-
+  
   if (gIsHintOn) return
   
   elHint.src = "img/hint_on.jpg";
@@ -117,7 +117,7 @@ function showHint(rowIdx,colIdx) {
 
       
 
-      gBoard[i][j].isShown = true
+      gBoard[i][j].isTempShow = true
 
     }
   }
@@ -131,33 +131,15 @@ function hideHint(rowIdx, colIdx) {
     for (var j = colIdx - 1; j <= colIdx + 1; j++) {
       if (j < 0 || j >= gBoard[0].length) continue;
 
-      if (!gBoard[i][j].isShown) continue;
+      if (gBoard[i][j].isShown) continue;
 
-      gBoard[i][j].isShown = false;
+      gBoard[i][j].isTempShow = false
     }
   }
   renderBoard();
 }
 
-// function onHintClick() {
-  
-//   if (!gHints) return
 
-//   gHints--
-
-//   renderHints()
-
-//   var emptyCells = countEmptyCells(gBoard)
-//   var randPos = getRandomInt(0, emptyCells.length - 1)
-//   var randomLocation = emptyCells[randPos]
-
-//   var elCell = document.querySelector(`.cell-${randomLocation.i}-${randomLocation.j}`)
-//   elCell.classList.add('hint')
-
-//   setTimeout(function () {
-//     elCell.classList.remove('hint')
-//   }, 1000)
-// }
 
 
 

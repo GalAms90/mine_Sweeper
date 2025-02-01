@@ -68,6 +68,7 @@ function populateBoard(board) {
         isShown: false,
         isMine: false,
         isMarked: false,
+        isTempShow: false
       }
     }
   }
@@ -87,11 +88,11 @@ function renderBoard() {
 
       if (currCell.isMarked) {
         content = MARK;
-      } else if (currCell.isShown) {
+      } else if (currCell.isShown || currCell.isTempShow) {
         content = currCell.isMine ? MINE : currCell.minesAroundCount || ''
       }
 
-      var cellClass = currCell.isShown ? '' : 'hidden'
+      var cellClass = currCell.isShown || currCell.isTempShow ? '' : 'hidden'
 
       if (currCell.isMarked) cellClass = ''
 
