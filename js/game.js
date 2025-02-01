@@ -3,15 +3,22 @@
 const MINE = '💣'
 const MARK = '🚩'
 
+const HINT_ON = `<img src="img/hint_on.jpg" alt="hint-on">`
+const HINT_OFF = `<img onclick="onHintClick(this)" src="img/hint_off.jpg" alt="hint-off">`
+
 const SMILE = '😊'
-const DEAD = '🤯'
+const BOOM = '🤯'
 const WIN = '😎'
+const DEAD = '💀'
 
 var gGame
 var gBoard
 var gIsFirstClick
 
+// BOUNS FEATURES
 var gLives
+var gHints
+var gIsHintOn
 
 var gLevel = {
   SIZE: 4,
@@ -26,10 +33,13 @@ function onInit() {
 
   document.querySelector('.icon').innerText = SMILE
   document.querySelector('.timer').innerText = '00:000'
+  clearInterval(gInterval)
 
-  gLives = 3
 
   gIsFirstClick = false
+  gLives = 3
+  gHints = 3
+  gIsHintOn = false
 
   gGame = {
     isOn: true,
@@ -39,8 +49,10 @@ function onInit() {
   }
   gBoard = buildBoard()
   populateBoard(gBoard)
-  console.log(gBoard)
+
   renderBoard()
+  renderLives()
+  renderHints()
 }
 
 function buildBoard() {
@@ -83,6 +95,10 @@ function renderBoard() {
 
       if (currCell.isMarked) cellClass = ''
 
+      if (currCell.isMine && currCell.isShown) {
+        cellClass += ' boom'
+      }
+
       strHTML += `<td
                    oncontextmenu="onCellMarked(${i}, ${j}); return false;"
                    class="cell-${i}-${j} ${cellClass}"
@@ -108,6 +124,17 @@ function onCellClicked(elCell, i, j) {
 
   }
 
+  if (gIsHintOn) {
+    showHint(i,j)
+    setTimeout(() => {
+      hideHint(i,j)
+
+      gIsHintOn.style.display = 'none'
+      gIsHintOn = false
+    }, 1000);
+    return
+  }
+
   gBoard[i][j].isShown = true
   gGame.shownCount++
 
@@ -119,8 +146,28 @@ function onCellClicked(elCell, i, j) {
 
 
   if (gBoard[i][j].isMine) {
-    document.querySelector('.icon').innerText = DEAD
-    gameOver()
+
+    document.querySelector('.icon').innerText = BOOM
+
+    gLives--
+    renderLives()
+
+    if (isGamerWin()) {
+      document.querySelector('.icon').innerText = WIN
+      gameOver()
+    }
+
+    setTimeout(() => {
+      if (gLives) document.querySelector('.icon').innerText = SMILE
+
+      renderBoard()
+    }, 2000);
+
+
+    if (!gLives) {
+
+      gameOver()
+    }
 
   } else if (!gBoard[i][j].minesAroundCount) {
     expandShown(gBoard, i, j)

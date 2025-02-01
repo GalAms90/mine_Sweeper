@@ -38,7 +38,7 @@ function getRandomPos() {
 
 function isGamerWin() {
   return gGame.shownCount === (gLevel.SIZE ** 2 - gLevel.MINES) &&
-         gGame.markedCount === gLevel.MINES
+    gGame.markedCount === gLevel.MINES || gGame.shownCount === (gLevel.SIZE ** 2)
 }
 
 function startStopWatch() {
@@ -59,11 +59,103 @@ function getRandomInt(min, max) {
 }
 
 function gameOver() {
+
+  if (!gLives) {
+    document.querySelector('.icon').innerText = DEAD
+
+  }
+
   console.log('Game Over')
   clearInterval(gInterval)
   gGame.isOn = false
 }
 
+function renderLives() {
+
+  var strLives = ''
+
+  for (var i = 0; i < gLives; i++) {
+    strLives += '❤'
+  }
+  document.querySelector('.lives').innerText = strLives
+
+}
+
+function renderHints() {
+
+  var strHints = ''
+
+  for (var i = 0; i < gHints; i++) {
+    strHints += HINT_OFF
+  }
+  document.querySelector('.hints').innerHTML = strHints
+
+}
+
+function onHintClick(elHint) {
+  
+  elHint.src = "img/hint_on.jpg";
+
+  elHint.removeAttribute("onclick");
+
+  gIsHintOn = elHint
+  
+
+}
+
+function showHint(rowIdx,colIdx) {
+  for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+    if (i < 0 || i >= gBoard.length) continue
+
+    for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+
+      if (j < 0 || j >= gBoard[0].length) continue
+
+      if (gBoard[i][j].isShown) continue
+
+      
+
+      gBoard[i][j].isShown = true
+
+    }
+  }
+  renderBoard()
+}
+
+function hideHint(rowIdx, colIdx) {
+  for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+    if (i < 0 || i >= gBoard.length) continue;
+
+    for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+      if (j < 0 || j >= gBoard[0].length) continue;
+
+      if (!gBoard[i][j].isShown) continue;
+
+      gBoard[i][j].isShown = false;
+    }
+  }
+  renderBoard();
+}
+
+// function onHintClick() {
+  
+//   if (!gHints) return
+
+//   gHints--
+
+//   renderHints()
+
+//   var emptyCells = countEmptyCells(gBoard)
+//   var randPos = getRandomInt(0, emptyCells.length - 1)
+//   var randomLocation = emptyCells[randPos]
+
+//   var elCell = document.querySelector(`.cell-${randomLocation.i}-${randomLocation.j}`)
+//   elCell.classList.add('hint')
+
+//   setTimeout(function () {
+//     elCell.classList.remove('hint')
+//   }, 1000)
+// }
 
 
 
