@@ -93,19 +93,22 @@ function renderHints() {
 }
 
 function onHintClick(elHint) {
-  
-  if (gIsHintOn) return
-  
-  elHint.src = "img/hint_on.jpg";
+  if (gIsHintOn === elHint) {
 
-  elHint.removeAttribute("onclick");
+    elHint.src = "img/hint_off.jpg"
+    gIsHintOn = false
 
-  gIsHintOn = elHint
-  
-
+  } else {
+    // turning off previous hint
+    if (gIsHintOn) {
+      gIsHintOn.src = "img/hint_off.jpg"
+    }
+    elHint.src = "img/hint_on.jpg"
+    gIsHintOn = elHint
+  }
 }
 
-function showHint(rowIdx,colIdx) {
+function showHint(rowIdx, colIdx) {
   for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
     if (i < 0 || i >= gBoard.length) continue
 
@@ -115,7 +118,7 @@ function showHint(rowIdx,colIdx) {
 
       if (gBoard[i][j].isShown) continue
 
-      
+
 
       gBoard[i][j].isTempShow = true
 

@@ -4,7 +4,7 @@ const MINE = '💣'
 const MARK = '🚩'
 
 const HINT_ON = `<img src="img/hint_on.jpg" alt="hint-on">`
-const HINT_OFF = `<img onclick="onHintClick(this)" src="img/hint_off.jpg" alt="hint-off">`
+const HINT_OFF = `<img onclick="onHintClick(this)" src="img/hint_off.jpg">`
 
 const SMILE = '😊'
 const BOOM = '🤯'
@@ -130,7 +130,7 @@ function onCellClicked(elCell, i, j) {
     setTimeout(() => {
       hideHint(i,j)
 
-      gIsHintOn.style.display = 'none'
+      gIsHintOn.src = ''
       gIsHintOn = false
     }, 1000);
     return
