@@ -9,7 +9,11 @@
 <body onload="onInit()">
   <h1>Mine Sweeper</h1>
 
-  <button class="icon" onclick="onInit()"></button>
+  <div class="button-container">
+    <button class="icon" onclick="onInit()"></button><br>
+  </div>
+  <button class="safe-btn" onclick="onSafeClick()">Safe Click</button>
+  <p class="safe-text"><span></span>clicks available</p>
 
 
   <table>
@@ -27,6 +31,20 @@
   </div>
 
   <div class="timer">00:000</div>
+
+  <div class="score-board">
+    <h2>Score Board</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Name</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody class="score-board-body"></tbody>
+    </table>
+  </div>
 
   <footer>Made by: Gal Amsalem</footer>
 

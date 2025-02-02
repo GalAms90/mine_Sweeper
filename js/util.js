@@ -142,6 +142,27 @@ function hideHint(rowIdx, colIdx) {
   renderBoard();
 }
 
+function onSafeClick() {
+  if (!gIsSafeClick) return
+  var emptyCells = countEmptyCells(gBoard)
+  var getRandomPos = getRandomInt(0, emptyCells.length - 1)
+  var randomLocation = emptyCells[getRandomPos]
+  var elCell = document.querySelector(`.cell-${randomLocation.i}-${randomLocation.j}`)
+  elCell.classList.add('safe-click')
+  gIsSafeClick--
+  renderSafeClick ()
+
+  setTimeout(() => {
+    elCell.classList.remove('safe-click')
+  }, 2000);
+
+}
+
+function renderSafeClick () {
+  var elText = document.querySelector('.safe-text span')
+  elText.innerText = gIsSafeClick + ' '
+}
+
 
 
 

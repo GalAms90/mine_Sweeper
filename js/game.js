@@ -14,6 +14,7 @@ const DEAD = '💀'
 var gGame
 var gBoard
 var gIsFirstClick
+var gIsSafeClick
 
 // BOUNS FEATURES
 var gLives
@@ -39,6 +40,7 @@ function onInit() {
   gIsFirstClick = false
   gLives = 3
   gHints = 3
+  gIsSafeClick = 3
   gIsHintOn = false
 
   gGame = {
@@ -53,6 +55,7 @@ function onInit() {
   renderBoard()
   renderLives()
   renderHints()
+  renderSafeClick()
 }
 
 function buildBoard() {
