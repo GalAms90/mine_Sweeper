@@ -144,7 +144,7 @@ function hideHint(rowIdx, colIdx) {
 
 function onSafeClick() {
   if (!gIsSafeClick) return
-  var emptyCells = countEmptyCells(gBoard)
+  var emptyCells =  countEmptyCellsSafeClick(gBoard)
   var getRandomPos = getRandomInt(0, emptyCells.length - 1)
   var randomLocation = emptyCells[getRandomPos]
   var elCell = document.querySelector(`.cell-${randomLocation.i}-${randomLocation.j}`)
@@ -161,6 +161,20 @@ function onSafeClick() {
 function renderSafeClick () {
   var elText = document.querySelector('.safe-text span')
   elText.innerText = gIsSafeClick + ' '
+}
+
+function countEmptyCellsSafeClick(board) {
+  var res = []
+  for (var i = 0; i < board.length; i++) {
+    for (var j = 0; j < board[0].length; j++) {
+      if (gIsFirstClick.i === i && gIsFirstClick.j === j) continue
+      if (gBoard[i][j].isShown) continue
+      if (!board[i][j].isMine)  ///
+        res.push({ i, j })
+    }
+  }
+  if (!res) return null
+  return res
 }
 
 

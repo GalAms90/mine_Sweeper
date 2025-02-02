@@ -31,6 +31,7 @@ button {
   background-color: burlywood;
   border-radius: 5px;
   cursor: pointer;
+  margin: 2px
 }
 
 button:hover {
@@ -98,7 +99,8 @@ img:hover {
 .difficulty {
   display: flex;
   justify-content: center;
-  margin-top: 0
+  margin-top: 0;
+  
 }
 
 .lives {
