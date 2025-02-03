@@ -15,6 +15,7 @@ var gGame
 var gBoard
 var gIsFirstClick
 var gIsSafeClick
+var gUndoBoard
 
 // BOUNS FEATURES
 var gLives
@@ -33,15 +34,8 @@ var gInterval
 function onInit() {
 
   document.querySelector('.icon').innerText = SMILE
-  document.querySelector('.timer').innerText = '00:000'
+  document.querySelector('.timer').innerText = '00:00'
   clearInterval(gInterval)
-
-
-  gIsFirstClick = false
-  gLives = 3
-  gHints = 3
-  gIsSafeClick = 3
-  gIsHintOn = false
 
   gGame = {
     isOn: true,
@@ -49,6 +43,14 @@ function onInit() {
     markedCount: 0,
     secsPassed: 0
   }
+
+  gIsFirstClick = false
+  gIsHintOn = false
+  gLives = 3
+  gHints = 3
+  gIsSafeClick = 3
+  gUndoBoard = []
+
   gBoard = buildBoard()
   populateBoard(gBoard)
 
@@ -117,6 +119,8 @@ function renderBoard() {
 
 function onCellClicked(elCell, i, j) {
 
+  gUndoBoard.push(structuredClone(gBoard))
+
   if (!gGame.isOn || gBoard[i][j].isMarked || gBoard[i][j].isShown) return /////////
 
   if (!gIsFirstClick) {
@@ -127,6 +131,8 @@ function onCellClicked(elCell, i, j) {
     setMinesNegsCount(gBoard)
 
   }
+
+
 
   if (gIsHintOn) {
     showHint(i,j)
@@ -143,6 +149,7 @@ function onCellClicked(elCell, i, j) {
   gGame.shownCount++
 
   if (isGamerWin()) {
+    renderBoard()
     document.querySelector('.icon').innerText = WIN
     gameOver()
   }
@@ -151,12 +158,15 @@ function onCellClicked(elCell, i, j) {
 
   if (gBoard[i][j].isMine) {
 
+    gGame.markedCount++
+
     document.querySelector('.icon').innerText = BOOM
 
     gLives--
     renderLives()
 
     if (isGamerWin()) {
+      renderBoard()
       document.querySelector('.icon').innerText = WIN
       gameOver()
     }
@@ -197,10 +207,12 @@ function expandShown(board, rowIdx, colIdx) {
       gGame.shownCount++
 
       if (isGamerWin()) {
+        renderBoard()
         document.querySelector('.icon').innerText = WIN
         gameOver()
+  
       }
-
+      
       if (!board[i][j].minesAroundCount) expandShown(board, i, j)
 
 
@@ -220,6 +232,7 @@ function onCellMarked(i, j) {
   }
 
   if (isGamerWin()) {
+    renderBoard()
     document.querySelector('.icon').innerText = WIN
     gameOver()
   }

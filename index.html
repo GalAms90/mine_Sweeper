@@ -24,6 +24,10 @@
 
   <div class="hints"></div>
   
+  <div class="btns">
+    <button onclick="onUndo()">Undo</button>
+  </div>
+  
   <div class="difficulty">
     <button class="btn" onclick="setLevel(this)">Beginner</button>
     <button class="btn" onclick="setLevel(this)">Intermediate</button>
@@ -34,7 +38,7 @@
 
   <div class="score-board">
     <h2>Score Board</h2>
-    <table>
+    <table class="score-board">
       <thead>
         <tr>
           <th>Beginner</th>
@@ -42,8 +46,25 @@
           <th>Expert</th>
         </tr>
       </thead>
-      <tbody class="score-board-body"></tbody>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Name</strong> <span class="beginner-name"></span> |
+            <strong>Score</strong> <span class="beginner-score"></span>
+          </td>
+          <td>
+            <strong>Name</strong> <span class="intermediate-name"></span> |
+            <strong>Score</strong> <span class="intermediate-score"></span>
+          </td>
+          <td>
+            <strong>Name</strong> <span class="expert-name"></span> |
+            <strong>Score</strong> <span class="expert-score"></span>
+          </td>
+        </tr>
+      </tbody>
     </table>
+    
+    
   </div>
 
   <footer>Made by: Gal Amsalem</footer>

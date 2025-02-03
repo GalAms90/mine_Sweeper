@@ -47,7 +47,7 @@ function startStopWatch() {
 
   gInterval = setInterval(function () {
     var elapsedTime = Date.now() - StartTime;
-    document.querySelector(".timer").innerHTML = (elapsedTime / 1000).toFixed(3);
+    document.querySelector(".timer").innerHTML = gGame.secsPassed = (elapsedTime / 1000).toFixed(2);
   }, 1);
 
 }
@@ -177,15 +177,21 @@ function countEmptyCellsSafeClick(board) {
   return res
 }
 
+function onUndo() {
+  if (!gUndoBoard.length) return
+  gBoard = gUndoBoard.pop()
 
+  renderBoard()
+}
 
+// function setScore() {
+//   var score = gGame.secsPassed
+//   var name = prompt('Congratulations, You Win! Please enter your name:')
 
+//   var scoreObj = { name, score }
 
+//   var difficulty = gLevel.SIZE === 4 ? 'beginner' : gLevel.SIZE === 8 ? 'intermediate' : 'expert'
 
-
-
-
-
-
-
-
+//   document.querySelector(`.${difficulty}-name`).innerText = scoreObj.name
+//   document.querySelector(`.${difficulty}-score`).innerText = scoreObj.score
+// }
