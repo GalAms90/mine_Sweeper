@@ -38,7 +38,7 @@ function getRandomPos() {
 
 function isGamerWin() {
   return gGame.shownCount === (gLevel.SIZE ** 2 - gLevel.MINES) &&
-    gGame.markedCount === gLevel.MINES || gGame.shownCount === (gLevel.SIZE ** 2)
+    gGame.markedCount === gLevel.MINES
 }
 
 function startStopWatch() {
@@ -192,12 +192,12 @@ function setScore() {
 
   var difficulty = gLevel.SIZE === 4 ? 'beginner' : gLevel.SIZE === 8 ? 'intermediate' : 'expert'
 
-  var bestScore = JSON.parse(localStorage.getItem(difficulty));
+  var bestScore = JSON.parse(localStorage.getItem(difficulty)) || { score: Infinity };
 
   if (score >= bestScore.score) {
-    alert(`You didn't beat the top score (${bestScore.name} - ${bestScore.score}s)`);
-    return;
-}
+      alert(`You didn't beat the top score (${bestScore.name} - ${bestScore.score}s)`);
+      return;
+  }
 
   var currScore = document.querySelector(`.${difficulty}-tbody`).innerText = scoreObj.name + ' - ' + scoreObj.score
 
