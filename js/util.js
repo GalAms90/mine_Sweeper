@@ -184,14 +184,23 @@ function onUndo() {
   renderBoard()
 }
 
-// function setScore() {
-//   var score = gGame.secsPassed
-//   var name = prompt('Congratulations, You Win! Please enter your name:')
+function setScore() {
+  var score = gGame.secsPassed
+  var name = prompt('Congratulations, You Win! Please enter your name:')
 
-//   var scoreObj = { name, score }
+  var scoreObj = { name, score }
 
-//   var difficulty = gLevel.SIZE === 4 ? 'beginner' : gLevel.SIZE === 8 ? 'intermediate' : 'expert'
+  var difficulty = gLevel.SIZE === 4 ? 'beginner' : gLevel.SIZE === 8 ? 'intermediate' : 'expert'
 
-//   document.querySelector(`.${difficulty}-name`).innerText = scoreObj.name
-//   document.querySelector(`.${difficulty}-score`).innerText = scoreObj.score
-// }
+  var bestScore = JSON.parse(localStorage.getItem(difficulty));
+
+  if (score >= bestScore.score) {
+    alert(`You didn't beat the top score (${bestScore.name} - ${bestScore.score}s)`);
+    return;
+}
+
+  var currScore = document.querySelector(`.${difficulty}-tbody`).innerText = scoreObj.name + ' - ' + scoreObj.score
+
+  localStorage.setItem(difficulty, JSON.stringify(currScore))
+  
+}

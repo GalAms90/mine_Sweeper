@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/main.css">
   <title>Mine Sweeper</title>
 </head>
+
 <body onload="onInit()">
   <h1>Mine Sweeper</h1>
 
@@ -23,11 +25,11 @@
   <div class="lives"></div>
 
   <div class="hints"></div>
-  
+
   <div class="btns">
     <button onclick="onUndo()">Undo</button>
   </div>
-  
+
   <div class="difficulty">
     <button class="btn" onclick="setLevel(this)">Beginner</button>
     <button class="btn" onclick="setLevel(this)">Intermediate</button>
@@ -49,22 +51,24 @@
       <tbody>
         <tr>
           <td>
-            <strong>Name</strong> <span class="beginner-name"></span> |
-            <strong>Score</strong> <span class="beginner-score"></span>
+            <table class="beginner-scores">
+              <tbody class="beginner-tbody"></tbody>
+            </table>
           </td>
           <td>
-            <strong>Name</strong> <span class="intermediate-name"></span> |
-            <strong>Score</strong> <span class="intermediate-score"></span>
+            <table class="intermediate-scores">
+              <tbody class="intermediate-tbody"></tbody>
+            </table>
           </td>
           <td>
-            <strong>Name</strong> <span class="expert-name"></span> |
-            <strong>Score</strong> <span class="expert-score"></span>
+            <table class="expert-scores">
+              <tbody class="expert-tbody"></tbody>
+            </table>
           </td>
         </tr>
       </tbody>
     </table>
-    
-    
+
   </div>
 
   <footer>Made by: Gal Amsalem</footer>
@@ -73,4 +77,5 @@
   <script src="js/mines.js"></script>
   <script src="js/game.js"></script>
 </body>
+
 </html>

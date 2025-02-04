@@ -58,6 +58,10 @@ function onInit() {
   renderLives()
   renderHints()
   renderSafeClick()
+
+  document.querySelector('.beginner-tbody').innerText = localStorage.getItem('beginner') || ''
+  document.querySelector('.intermediate-tbody').innerText = localStorage.getItem('intermediate') || ''
+  document.querySelector('.expert-tbody').innerText = localStorage.getItem('expert') || ''
 }
 
 function buildBoard() {
@@ -135,9 +139,9 @@ function onCellClicked(elCell, i, j) {
 
 
   if (gIsHintOn) {
-    showHint(i,j)
+    showHint(i, j)
     setTimeout(() => {
-      hideHint(i,j)
+      hideHint(i, j)
 
       gIsHintOn.src = ''
       gIsHintOn = false
@@ -151,6 +155,8 @@ function onCellClicked(elCell, i, j) {
   if (isGamerWin()) {
     renderBoard()
     document.querySelector('.icon').innerText = WIN
+
+    setScore()
     gameOver()
   }
 
@@ -168,6 +174,8 @@ function onCellClicked(elCell, i, j) {
     if (isGamerWin()) {
       renderBoard()
       document.querySelector('.icon').innerText = WIN
+
+      setScore()
       gameOver()
     }
 
@@ -209,10 +217,12 @@ function expandShown(board, rowIdx, colIdx) {
       if (isGamerWin()) {
         renderBoard()
         document.querySelector('.icon').innerText = WIN
+
+        setScore()
         gameOver()
-  
+
       }
-      
+
       if (!board[i][j].minesAroundCount) expandShown(board, i, j)
 
 
@@ -234,6 +244,8 @@ function onCellMarked(i, j) {
   if (isGamerWin()) {
     renderBoard()
     document.querySelector('.icon').innerText = WIN
+
+    setScore()
     gameOver()
   }
 
